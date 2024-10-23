@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SHOE RETAIL</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" width="125px"></a>
+                </div>
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    </ul>
+                </nav>
+                <li><a href="{{ url_for('main.view_cart') }}">Cart</a></li><img src="{{ url_for('static', filename='images/cart.jpg') }}" width="30px" height="30px"></a>
+                <img src="{{ url_for('static', filename='static/menu.png') }}" class="menu-icon" onClick="menutoggle()">
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <h1>Give your Feet <br>A New Style!</h1>
+                    <p>Freshen your look by getting a new pair<br>that fits <strong>YOUR</strong> style.</p>
+                    <a href="#categories" class="btn">Explore Now &#8594;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------------------------------ Featured Products ------------------------------>
+    <div class="small-container">
+        <h2 class="title">Featured Products</h2>
+        <div class="row">
+            <div class="col-4">
+                <a href="{{ url_for('main.product_details', product_id=1) }}">
+                    <h4>Downshifter Sports Shoes</h4>
+                </a>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$50.00</p>
+            </div>
+            <div class="col-4">
+                <a href="{{ url_for('main.product_details', product_id=2) }}">
+                    <h4>Lace-Up Running Shoes</h4>
+                </a>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                </div>
+                <p>$35.00</p>
+            </div>
+            <div class="col-4">
+                <a href="{{ url_for('main.product_details', product_id=3) }}">
+                    <h4>Lace Fastening Shoes</h4>
+                </a>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$15.00</p>
+            </div>
+            <div class="col-4">
+                <a href="{{ url_for('main.product_details', product_id=4) }}">
+                    <h4>Flat Lace-Fastening Shoes</h4>
+                </a>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$48.00</p>
+            </div>  
+        </div>
+    </div>
+    
+    <!--------------------------   Category-list   --------------------------------->
+    <div id="categories" class="category-banner">
+        <a href="{{ url_for('main.category_products', category_name='athletic shoes') }}" class="category">
+            <img src="{{ url_for('static', filename='images/athletic-shoes.jpg') }}" alt="Athletic Shoes" class="category-img">
+            <span>Athletic</span>
+        </a>
+        <a href="{{ url_for('main.category_products', category_name='boots') }}" class="category">
+            <img src="{{ url_for('static', filename='images/boots.jpg') }}" alt="Boots" class="category-img">
+            <span>Boots</span>
+        </a>
+        <a href="{{ url_for('main.category_products', category_name='classic') }}" class="category">
+            <img src="{{ url_for('static', filename='images/classic.jpg') }}" alt="Classic Shoes" class="category-img">
+            <span>Classic</span>
+        </a>
+        <a href="{{ url_for('main.category_products', category_name='heels') }}" class="category">
+            <img src="{{ url_for('static', filename='images/heels.jpg') }}" alt="Heels" class="category-img">
+            <span>Heels</span>
+        </a>
+        <!-- Add other categories similarly -->
+        <a href="{{ url_for('main.category_products', category_name='loafers') }}" class="category">
+            <img src="{{ url_for('static', filename='images/loafers.jpg') }}" alt="Loafers" class="category-img">
+            <span>Loafers</span>
+        </a>
+        <a href="{{ url_for('main.category_products', category_name='sandals') }}" class="category">
+            <img src="{{ url_for('static', filename='images/sandals.jpg') }}" alt="Sandals" class="category-img">
+            <span>Sandals</span>
+        </a>
+        <a href="{{ url_for('main.category_products', category_name='slippers') }}" class="category">
+            <img src="{{ url_for('static', filename='images/slippers.jpg') }}" alt="Slippers" class="category-img">
+            <span>Slippers</span>
+        </a>
+        <a href="{{ url_for('main.category_products', category_name='sneakers') }}" class="category">
+            <img src="{{ url_for('static', filename='images/sneakers.jpg') }}" alt="Sneakers" class="category-img">
+            <span>Sneakers</span>
+        </a>
+    </div>
+
+    <!------------------------------ Testimonial ---------------------------------->
+    <div class="testimonial">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-3">
+                    <i class="fa fa-quote-left"></i>
+                    <p> <strong>"Customer service and easy returns"</strong> <br> I had an issue with the size of my order, but the customer service team was incredibly helpful and made the exchange process simple. It’s refreshing to deal with a company that cares about its customers!</p>
+                    <div class="rating"> 
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <h3>Micheal Jon</h3>
+                </div>
+                <div class="col-3">
+                    <i class="fa fa-quote-left"></i>
+                    <p><strong>"Excellent quality!"</strong> <br> The shoes I purchased exceeded my expectations in both style and quality. They are comfortable and look great with everything!</p>
+                    <div class="rating"> 
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <h3>Linda Rose</h3>
+                </div>
+                <div class="col-3">
+                    <i class="fa fa-quote-left"></i>
+                    <p><strong>"Amazing selection and fast shipping!"</strong> <br> I found exactly what I was looking for, and it arrived in no time. I’ll definitely be coming back for my next pair!</p>
+                    <div class="rating"> 
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <h3>Sarah Turner</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!----------------------------- Footer ------------------------------->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download our App</h3>
+                    <p>Download App for Android and iOS mobile phone.</p>
+                    <div class="app-logo">
+                        <img src="{{ url_for('static', filename='images/play-store.png') }}">
+                        <img src="{{ url_for('static', filename='images/app-store.png') }}">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <h1>THE SHOE RETAIL</h1>
+                    <p>Our Purpose is to sustainably make the world a more fashionable place. <br> We sell a variety of shoes to fit all your style needs.</p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p>Copyright 2024 - THE SHOE RETAIL</p>
+        </div>
+    </div>
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+        var menu = document.querySelector(".menu-icon");
+
+        function menutoggle() {
+            MenuItems.style.maxHeight = MenuItems.style.maxHeight === "0px" ? "200px" : "0px";
+        }
+    </script>
+</body>
+</html>

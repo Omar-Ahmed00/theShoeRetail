@@ -1,0 +1,115 @@
+R: 0.33
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split, RandomizedSearchCV, TimeSeriesSplit
+from sklearn.metrics import mean_absolute_error, r2_score
+import xgboost as xgb
+import mlflow
+import mlflow.sklearn
+from sklearn.preprocessing import StandardScaler
+
+# Load the dataset
+data = pd.read_csv(r"D:\DEPI\NewSim_version3.11\appp\app\sales_data.csv")
+
+# Preprocessing
+## Feature Engineering
+data['date'] = pd.to_datetime(data['date'])
+data['day_of_week'] = data['date'].dt.dayofweek  # Monday=0, Sunday=6
+data['is_weekend'] = data['day_of_week'].apply(lambda x: 1 if x >= 5 else 0)
+data['month'] = data['date'].dt.month
+data['year'] = data['date'].dt.year  # Adding year as a feature
+
+# Lagged Sales Features
+data['sales_lag_1'] = data['sales'].shift(1).fillna(0)
+data['sales_lag_2'] = data['sales'].shift(2).fillna(0)
+data['sales_lag_3'] = data['sales'].shift(3).fillna(0)
+data['sales_lag_4'] = data['sales'].shift(4).fillna(0)
+
+# Rolling Average of Sales (7 days)
+data['rolling_avg_7d'] = data['sales'].rolling(window=7, min_periods=1).mean().fillna(0)
+
+# Stock-Discount Ratio
+data['stock_discount_ratio'] = data['stock'] / (data['discount'] + 1)
+
+# Cyclical Encoding for Day of Week and Month
+data['day_of_week_sin'] = np.sin(2 * np.pi * data['day_of_week'] / 7)
+data['day_of_week_cos'] = np.cos(2 * np.pi * data['day_of_week'] / 7)
+data['month_sin'] = np.sin(2 * np.pi * data['month'] / 12)
+data['month_cos'] = np.cos(2 * np.pi * data['month'] / 12)
+
+# One-Hot Encode 'category'
+data = pd.get_dummies(data, columns=['category'], drop_first=True)
+
+# Define Features and Target
+features = ['discount', 'stock', 'sales_lag_1', 'sales_lag_2', 
+            'sales_lag_3', 'sales_lag_4', 'rolling_avg_7d', 
+            'stock_discount_ratio', 'day_of_week_sin', 
+            'day_of_week_cos', 'month_sin', 'month_cos']
+features += [col for col in data.columns if col.startswith('category_')]  # Include category dummies
+
+X = data[features]
+y = data['sales']
+
+# Split the data into training and test sets (70% training, 30% test for larger data)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, shuffle=False)
+
+# Standardize the features
+scaler = StandardScaler()
+X_train[features] = scaler.fit_transform(X_train[features])
+X_test[features] = scaler.transform(X_test[features])
+
+# Define parameter distribution for RandomizedSearchCV
+param_dist = {
+    'learning_rate': np.logspace(-4, 0, num=5),
+    'max_depth': [3, 5, 7, 9, 11],
+    'n_estimators': [50, 100, 200, 300],
+    'min_child_weight': [1, 2, 3, 4, 5]
+}
+
+# Use TimeSeriesSplit for cross-validation
+tscv = TimeSeriesSplit(n_splits=5)
+
+model = xgb.XGBRegressor(objective='reg:squarederror', random_state=42)
+random_search = RandomizedSearchCV(model, param_dist, n_iter=100, cv=tscv, 
+                                   scoring='neg_mean_absolute_error', verbose=1, n_jobs=-1)
+
+# Train the model using RandomizedSearchCV
+random_search.fit(X_train, y_train)
+
+# Get the best model
+best_model = random_search.best_estimator_
+
+# Predict and Evaluate
+y_pred = best_model.predict(X_test)
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f"MAE: {mae}, R²: {r2}")
+
+# Set the tracking URI for MLflow server
+mlflow.set_tracking_uri("http://127.0.0.1:5001")
+
+# Log the tuned model with MLflow
+with mlflow.start_run() as run:
+    mlflow.log_params(random_search.best_params_)
+    mlflow.log_metric("mae", mae)
+    mlflow.log_metric("r2", r2)
+    mlflow.sklearn.log_model(best_model, "tuned_sales_forecasting_model")
+
+    print(f"Tuned Model logged in run: {run.info.run_id}")
+
+
+
+
+
+
+
+
+
+
+
+
+=============================================================================
+
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category_name | capitalize }} - Products</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" width="125px"></a>
+                </div>
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="{{ url_for('main.view_cart')}}"><img src="{{ url_for('static',filename='images/cart.jpg')}}" width="30px" height="30px"></a>
+                <img src="../static/" class="menu-icon" onClick="menutoggle()">
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1>{{ category_name | capitalize }} Shoes</h1>
+        <a href="{{ url_for('main.product_list') }}" class="btn">Back to All Products</a>
+
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    <!-- <img src="{{ product.image_url }}" alt="{{ product.product_name }}" class="product-img"> -->
+                    <h3>{{ product.product_name }}</h3>
+                    <p>${{ product.price }}</p>
+                    <form action="{{ url_for('main.product_details', product_id=product.product_id) }}" method="GET">
+                        <input type="number" name="quantity" value="1" min="1" max="{{ product.stock_quantity }}">
+                        <button type="submit" class="btn">Details</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

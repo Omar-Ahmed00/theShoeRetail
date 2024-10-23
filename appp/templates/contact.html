@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <title>Contact Us - THE SHOE RETAIL</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" width="125px"></a>
+                </div>
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="{{ url_for('main.view_cart')}}"><img src="{{ url_for('static',filename='images/cart.jpg')}}" width="30px" height="30px"></a>
+                <img src="../static/" class="menu-icon" onClick="menutoggle()">
+            </div>
+        </div>
+    </header>
+
+    <div class="small-container">
+        <h2 class="title">Contact Us</h2>
+        <p>If you have any questions, feel free to contact us using the form below or through our contact details:</p>
+        <p>Email: support@the_shoe_retail.com</p>
+        <p>Phone: +175-699-720</p> <br>
+
+        <form id="contactForm" action="/submit_form" method="POST">
+            <label for="name">Your Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">Your Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="message">Your Message:</label><br>
+            <textarea id="message" name="message" rows="4" required></textarea><br><br>
+
+            <input type="submit" value="Submit" class="btn">
+        </form>
+    </div>
+
+    <!----------------------------------footer------------------------------------->
+    <div class="footer">
+        <hr>
+        <p class="copyright">Copyright 2024 - THE SHOE RETAIL</p>
+    </div>
+
+    <script>
+        var menuItems = document.getElementById("MenuItems");
+        MenuItems.style.maxHeight = "0px";
+
+        function menutoggle() {
+            if (MenuItems.style.maxHeight == "0px") {
+                MenuItems.style.maxHeight = "200px";
+            } else {
+                MenuItems.style.maxHeight = "0px";
+            }
+        }
+
+        // Intercept form submission
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Display the success message
+            alert("Your message has been sent successfully!");
+
+            // Redirect to the home page
+            window.location.href = 'http://127.0.0.1:5000/';
+        });
+    </script>
+</body>
+</html>

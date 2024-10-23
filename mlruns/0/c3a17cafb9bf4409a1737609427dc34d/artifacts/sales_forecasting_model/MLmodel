@@ -1,0 +1,19 @@
+artifact_path: sales_forecasting_model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.0
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.5.2
+mlflow_version: 2.2.2
+model_uuid: 54cc9b6f32e8468ca80f932057b29405
+run_id: c3a17cafb9bf4409a1737609427dc34d
+utc_time_created: '2024-10-20 23:34:52.876600'

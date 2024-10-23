@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/9b7127638bbd40b8a95da4b3139eab5a/artifacts
+end_time: 1729460356835
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9b7127638bbd40b8a95da4b3139eab5a
+run_name: valuable-bird-77
+run_uuid: 9b7127638bbd40b8a95da4b3139eab5a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1729460347502
+status: 4
+tags: []
+user_id: omars

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - THE SHOE RETAIL</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" width="125px"></a>
+                </div>
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="{{ url_for('main.view_cart')}}"><img src="{{ url_for('static',filename='images/cart.jpg')}}" width="30px" height="30px"></a>
+                <img src="../static/" class="menu-icon" onClick="menutoggle()">
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Items -->
+    <div class="small-container cart-page">
+        <form method="POST" action="{{ url_for('main.update_cart') }}">
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+
+                {% if cart_items %}
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            <div class="cart-info">
+                                <img src="{{ item['image'] }}" alt="{{ item['product'].product_name }}" class="product-img">
+                                <div>
+                                    <p>{{ item.product.product_name }}</p>
+                                    <small>Price: ${{ item.product.price }}</small><br>
+                                    <a href="{{ url_for('main.remove_from_cart', product_id=item.product.product_id) }}">Remove</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="number" name="quantity_{{ item.product.product_id }}" value="{{ item.quantity }}" min="1">
+                        </td>
+                        <td>${{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">Your cart is empty. <a href="{{ url_for('main.home') }}">Browse products</a>.</td>
+                    </tr>
+                {% endif %}
+            </table>
+
+            {% if cart_items %}
+            <div class="total-price">
+                <table>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td>${{ total_price }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tax</td>
+                        <td>${{ tax }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>${{ total_price + tax }}</td>
+                    </tr>
+                </table>
+            </div>
+            <button type="submit" class="btn">Update Cart</button>
+            <form method="POST" action="{{ url_for('main.checkout') }}">
+                <button type="submit" class="btn">Proceed to Checkout</button>
+            </form>
+                        {% endif %}
+        </form>
+    </div>
+
+    <footer class="footer">
+        <hr>
+        <p>&copy; 2024 THE SHOE RETAIL</p>
+    </footer>
+</body>
+</html>

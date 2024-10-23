@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.product_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="{{ url_for('main.home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" width="125px" alt="Logo"></a>
+                </div>
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                        <li><a href="{{ url_for('main.about') }}">About</a></li>
+                        <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="{{ url_for('main.view_cart') }}"><img src="{{ url_for('static', filename='images/cart.jpg') }}" width="30px" height="30px" alt="Cart"></a>
+                <img src="../static/" class="menu-icon" onClick="menutoggle()" alt="Menu Icon">
+            </div>
+        </div>
+    </header>
+
+    <main class="container single-product">
+        <div class="row">
+            <div class="col-2">
+                <!-- Use the product_image directly as a URL -->
+                <img src="{{ product.product_image }}" class="product-img" alt="{{ product.product_name }}">
+            </div>
+    
+            <div class="col-2">
+                <h2>Price: {{ product.price }} USD</h2>
+                <p>Category: {{ product.category }}</p>
+                <p>Stock: {{ product.stock_quantity }}</p>
+                <p>Product Name: {{ product.product_name }}</p>
+    
+                <form action="{{ url_for('main.add_to_cart', product_id=product.product_id) }}" method="POST">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" min="1" max="{{ product.stock_quantity }}" value="1" required>
+                    <button type="submit" class="btn">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Shoe Retail</p>
+        </div>
+    </footer>
+</body>
+</html>
