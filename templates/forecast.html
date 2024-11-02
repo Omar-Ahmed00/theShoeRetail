@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Forecast</title>
+</head>
+<body>
+    <h1>Sales Forecast for Product ID: {{ product_id }}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Forecasted Sales</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for date, prediction in zip(dates, predictions) %}
+            <tr>
+                <td>{{ date }}</td>
+                <td>{{ prediction }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('main.home') }}">Back to Home</a>
+</body>
+</html>
